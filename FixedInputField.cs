@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,30 +43,4 @@ public class FixedInputField : InputField
 		m_CaretSelectPosition = Mathf.Clamp(m_CaretSelectPosition + move, 0, m_Text.Length);
 		m_CaretPosition = m_CaretSelectPosition;
 	}
-
-#if UNITY_EDITOR
-	[MenuItem("GameObject/UI/FixedInputField")]
-	static void CreateFixedInputField()
-	{
-		GameObject go = new GameObject("FixedInputField", typeof(RectTransform));
-		go.AddComponent<InputField>();
-
-		if (Selection.activeGameObject == null)
-		{
-			Canvas canvas = FindObjectOfType<Canvas>();
-			if (canvas == null)
-			{
-				GameObject canvasGo = new GameObject("Canvas");
-				canvas = canvasGo.AddComponent<Canvas>();
-			}
-			canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-			go.transform.SetParent(canvas.transform);
-			go.transform.localPosition = Vector3.zero;
-		}
-		else
-			go.transform.SetParent(Selection.activeGameObject.transform);
-		Undo.RegisterCreatedObjectUndo(go, "CreateFixedInputField");
-		Selection.activeGameObject = go;
-	}
-#endif
 }
